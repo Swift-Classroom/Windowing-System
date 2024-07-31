@@ -3,7 +3,6 @@ import XCTest
 @testable import WindowingSystem
 
 final class WindowingSystemTests: XCTestCase {
-  let runAll = Bool(ProcessInfo.processInfo.environment["RUNALL", default: "false"]) ?? false
 
   func testNewWindow() {
     // This is an example of a functional test case.
@@ -15,14 +14,14 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testMainWindow() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     XCTAssertEqual(
       mainWindow.display(),
       "Main Window\nPosition: (100, 100), Size: (400 x 300)\nThis is the main window\n")
   }
 
   func testPositionMove() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     var pos = Position()
     let newX = Int.random(in: 0...100)
     let newY = Int.random(in: 0...1000)
@@ -33,7 +32,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testResize() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     var size = Size()
     let newWidth = Int.random(in: 0...100)
     let newHeight = Int.random(in: 0...1000)
@@ -44,7 +43,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testMoveValid() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let testWindow: Window = {
       let window = Window()
       window.title = "Test Window"
@@ -59,7 +58,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testMoveTooFar() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let testWindow: Window = {
       let window = Window()
       window.title = "Test Window"
@@ -74,7 +73,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testMoveNegative() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let testWindow: Window = {
       let window = Window()
       window.title = "Test Window"
@@ -89,7 +88,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testResizeValid() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let testWindow: Window = {
       let window = Window()
       window.title = "Test Window"
@@ -104,7 +103,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testResizeTooFar() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let testWindow: Window = {
       let window = Window()
       window.title = "Test Window"
@@ -119,7 +118,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testResizeNegative() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let testWindow: Window = {
       let window = Window()
       window.title = "Test Window"
@@ -133,7 +132,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testUpdateTitle() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let window = Window()
     window.update(title: "Did it change?")
     XCTAssertEqual(
@@ -142,7 +141,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testUpdateText() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let window = Window()
     window.update(text: "Did it change?")
     XCTAssertEqual(
@@ -150,7 +149,7 @@ final class WindowingSystemTests: XCTestCase {
   }
 
   func testUpdateTextNil() throws {
-    try XCTSkipIf(true && !runAll)  // change true to false to run this test
+    
     let window = Window()
     window.update(text: "Did it change?")
     window.update(text: nil)
