@@ -1,174 +1,159 @@
-import XCTest
+import Testing
 
-@testable import WindowingSystem
-
-final class WindowingSystemTests: XCTestCase {
-
-  func testNewWindow() {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct
-    // results.
-    XCTAssertEqual(
-      Window().display(),
-      "New Window\nPosition: (0, 0), Size: (80 x 60)\n[This window intentionally left blank]\n")
-  }
-
-  func testMainWindow() throws {
+struct WindowingSystemTests {
     
-    XCTAssertEqual(
-      mainWindow.display(),
-      "Main Window\nPosition: (100, 100), Size: (400 x 300)\nThis is the main window\n")
-  }
-
-  func testPositionMove() throws {
+    @Test func testNewWindow() async throws {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct
+        // results.
+        #expect(
+            Window().display() ==
+            "New Window\nPosition: (0, 0), Size: (80 x 60)\n[This window intentionally left blank]\n")
+    }
     
-    var pos = Position()
-    let newX = Int.random(in: 0...100)
-    let newY = Int.random(in: 0...1000)
-    pos.moveTo(newX: newX, newY: newY)
-    XCTAssertTrue(
-      pos.x == newX && pos.y == newY,
-      "Expected: Position(x: \(newX), \(newY)), got Position(x: \(pos.x), \(pos.y))")
-  }
-
-  func testResize() throws {
+    @Test func testMainWindow() async throws {
+        
+        #expect(
+            mainWindow.display() ==
+            "Main Window\nPosition: (100, 100), Size: (400 x 300)\nThis is the main window\n")
+    }
     
-    var size = Size()
-    let newWidth = Int.random(in: 0...100)
-    let newHeight = Int.random(in: 0...1000)
-    size.resize(newWidth: newWidth, newHeight: newHeight)
-    XCTAssertTrue(
-      size.width == newWidth && size.height == newHeight,
-      "Expected: Size(width: \(newWidth), height: \(newHeight)), got Size(width: \(size.width), height: \(size.height))")
-  }
-
-  func testMoveValid() throws {
+    @Test func testPositionMove() async throws {
+        
+        var pos = Position()
+        let newX = Int.random(in: 0...100)
+        let newY = Int.random(in: 0...1000)
+        pos.moveTo(newX: newX, newY: newY)
+        #expect(
+            (pos.x == newX && pos.y == newY) == true,
+            "Expected: Position(x: \(newX), \(newY)), got Position(x: \(pos.x), \(pos.y))")
+    }
     
-    let testWindow: Window = {
-      let window = Window()
-      window.title = "Test Window"
-      window.contents = "test"
-      window.resize(to: Size(width: 100, height: 100))
-      window.move(to: Position(x: 100, y: 100))
-      return window
-    }()
-    XCTAssertEqual(
-      testWindow.display(),
-      "Test Window\nPosition: (100, 100), Size: (100 x 100)\ntest\n")
-  }
-
-  func testMoveTooFar() throws {
+    @Test func testResize() async throws {
+        
+        var size = Size()
+        let newWidth = Int.random(in: 0...100)
+        let newHeight = Int.random(in: 0...1000)
+        size.resize(newWidth: newWidth, newHeight: newHeight)
+        #expect(
+            (size.width == newWidth && size.height == newHeight) == true,
+            "Expected: Size(width: \(newWidth), height: \(newHeight)), got Size(width: \(size.width), height: \(size.height))")
+    }
     
-    let testWindow: Window = {
-      let window = Window()
-      window.title = "Test Window"
-      window.contents = "test"
-      window.resize(to: Size(width: 100, height: 100))
-      window.move(to: Position(x: 750, y: 650))
-      return window
-    }()
-    XCTAssertEqual(
-      testWindow.display(),
-      "Test Window\nPosition: (700, 500), Size: (100 x 100)\ntest\n")
-  }
-
-  func testMoveNegative() throws {
+    @Test func testMoveValid() async throws {
+        
+        let testWindow: Window = {
+            let window = Window()
+            window.title = "Test Window"
+            window.contents = "test"
+            window.resize(to: Size(width: 100, height: 100))
+            window.move(to: Position(x: 100, y: 100))
+            return window
+        }()
+        #expect(
+            testWindow.display() ==
+            "Test Window\nPosition: (100, 100), Size: (100 x 100)\ntest\n")
+    }
     
-    let testWindow: Window = {
-      let window = Window()
-      window.title = "Test Window"
-      window.contents = "test"
-      window.resize(to: Size(width: 100, height: 100))
-      window.move(to: Position(x: -80, y: -60))
-      return window
-    }()
-    XCTAssertEqual(
-      testWindow.display(),
-      "Test Window\nPosition: (0, 0), Size: (100 x 100)\ntest\n")
-  }
-
-  func testResizeValid() throws {
+    @Test func testMoveTooFar() async throws {
+        
+        let testWindow: Window = {
+            let window = Window()
+            window.title = "Test Window"
+            window.contents = "test"
+            window.resize(to: Size(width: 100, height: 100))
+            window.move(to: Position(x: 750, y: 650))
+            return window
+        }()
+        #expect(
+            testWindow.display() ==
+            "Test Window\nPosition: (700, 500), Size: (100 x 100)\ntest\n")
+    }
     
-    let testWindow: Window = {
-      let window = Window()
-      window.title = "Test Window"
-      window.contents = "test"
-      window.move(to: Position(x: 600, y: 500))
-      window.resize(to: Size(width: 100, height: 100))
-      return window
-    }()
-    XCTAssertEqual(
-      testWindow.display(),
-      "Test Window\nPosition: (600, 500), Size: (100 x 100)\ntest\n")
-  }
-
-  func testResizeTooFar() throws {
+    @Test func testMoveNegative() async throws {
+        
+        let testWindow: Window = {
+            let window = Window()
+            window.title = "Test Window"
+            window.contents = "test"
+            window.resize(to: Size(width: 100, height: 100))
+            window.move(to: Position(x: -80, y: -60))
+            return window
+        }()
+        #expect(
+            testWindow.display() ==
+            "Test Window\nPosition: (0, 0), Size: (100 x 100)\ntest\n")
+    }
     
-    let testWindow: Window = {
-      let window = Window()
-      window.title = "Test Window"
-      window.contents = "test"
-      window.move(to: Position(x: 710, y: 525))
-      window.resize(to: Size(width: 1000, height: 1000))
-      return window
-    }()
-    XCTAssertEqual(
-      testWindow.display(),
-      "Test Window\nPosition: (710, 525), Size: (90 x 75)\ntest\n")
-  }
-
-  func testResizeNegative() throws {
+    @Test func testResizeValid() async throws {
+        
+        let testWindow: Window = {
+            let window = Window()
+            window.title = "Test Window"
+            window.contents = "test"
+            window.move(to: Position(x: 600, y: 500))
+            window.resize(to: Size(width: 100, height: 100))
+            return window
+        }()
+        #expect(
+            testWindow.display() ==
+            "Test Window\nPosition: (600, 500), Size: (100 x 100)\ntest\n")
+    }
     
-    let testWindow: Window = {
-      let window = Window()
-      window.title = "Test Window"
-      window.contents = "test"
-      window.resize(to: Size(width: 0, height: -100))
-      return window
-    }()
-    XCTAssertEqual(
-      testWindow.display(),
-      "Test Window\nPosition: (0, 0), Size: (1 x 1)\ntest\n")
-  }
-
-  func testUpdateTitle() throws {
+    @Test func testResizeTooFar() async throws {
+        
+        let testWindow: Window = {
+            let window = Window()
+            window.title = "Test Window"
+            window.contents = "test"
+            window.move(to: Position(x: 710, y: 525))
+            window.resize(to: Size(width: 1000, height: 1000))
+            return window
+        }()
+        #expect(
+            testWindow.display() ==
+            "Test Window\nPosition: (710, 525), Size: (90 x 75)\ntest\n")
+    }
     
-    let window = Window()
-    window.update(title: "Did it change?")
-    XCTAssertEqual(
-      window.display(),
-      "Did it change?\nPosition: (0, 0), Size: (80 x 60)\n[This window intentionally left blank]\n")
-  }
-
-  func testUpdateText() throws {
+    @Test func testResizeNegative() async throws {
+        
+        let testWindow: Window = {
+            let window = Window()
+            window.title = "Test Window"
+            window.contents = "test"
+            window.resize(to: Size(width: 0, height: -100))
+            return window
+        }()
+        #expect(
+            testWindow.display() ==
+            "Test Window\nPosition: (0, 0), Size: (1 x 1)\ntest\n")
+    }
     
-    let window = Window()
-    window.update(text: "Did it change?")
-    XCTAssertEqual(
-      window.display(), "New Window\nPosition: (0, 0), Size: (80 x 60)\nDid it change?\n")
-  }
-
-  func testUpdateTextNil() throws {
+    @Test func testUpdateTitle() async throws {
+        
+        let window = Window()
+        window.update(title: "Did it change?")
+        #expect(
+            window.display() ==
+            "Did it change?\nPosition: (0, 0), Size: (80 x 60)\n[This window intentionally left blank]\n")
+    }
     
-    let window = Window()
-    window.update(text: "Did it change?")
-    window.update(text: nil)
-    XCTAssertEqual(
-      window.display(),
-      "New Window\nPosition: (0, 0), Size: (80 x 60)\n[This window intentionally left blank]\n")
-  }
-
-  static var allTests = [
-    ("testNewWindow", testNewWindow),
-    ("testMainWindow", testMainWindow),
-    ("testMoveValid", testMoveValid),
-    ("testMoveTooFar", testMoveTooFar),
-    ("testMoveNegative", testMoveNegative),
-    ("testResizeValid", testResizeValid),
-    ("testResizeTooFar", testResizeTooFar),
-    ("testResizeNegative", testResizeNegative),
-    ("testUpdateTitle", testUpdateTitle),
-    ("testUpdateText", testUpdateText),
-    ("testUpdateTextNil", testUpdateTextNil),
-  ]
+    @Test func testUpdateText() async throws {
+        
+        let window = Window()
+        window.update(text: "Did it change?")
+        #expect(
+            window.display() == "New Window\nPosition: (0, 0), Size: (80 x 60)\nDid it change?\n")
+    }
+    
+    @Test func testUpdateTextNil() async throws {
+        
+        let window = Window()
+        window.update(text: "Did it change?")
+        window.update(text: nil)
+        #expect(
+            window.display() ==
+            "New Window\nPosition: (0, 0), Size: (80 x 60)\n[This window intentionally left blank]\n")
+    }
+    
 }
